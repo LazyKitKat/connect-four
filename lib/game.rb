@@ -36,14 +36,27 @@ class Game
                     break
                 end
             end
+            break if draw?() and !win?(current_player.symbol)
             change_player() if !win?(@current_player.symbol)
         end
         @board.print
-        puts "Congratulations #{@current_player.name}! You won!"
+        if draw?() and !win?(current_player.symbol)
+            puts "It's a draw!"
+        else
+            puts "Congratulations #{@current_player.name}! You won!"
+        end
+    end
+
+    def draw?
+        @board.arr.each do |row|
+            row.each { |index| return false if index.nil? }
+        end
+        true
     end
 
     def win?(symbol)
         return true if check_row?(symbol) or check_column?(symbol) or up_diagonal?(symbol) or down_diagonal?(symbol)
+        
         false
     end
 

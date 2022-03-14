@@ -4,17 +4,17 @@ describe Game do
     let(:new_game) { Game.new('A', 'B')  }
     
 
-    context 'when given a row' do
-        it 'should return true when 4 in a row' do
+    context 'when nil value in the array' do
+        it 'draw? should return false' do
             new_game.board.arr = [
-                [nil, nil, nil, nil, nil, nil, nil],
-                [nil, nil, nil, nil, nil, nil, nil],
-                [nil, nil, nil, 'x', nil, nil, nil],
-                [nil, nil, 'x', nil, nil, nil, nil],
-                [nil, 'x', nil, nil, nil, nil, nil],
-                ['x', nil, nil, nil, nil, nil, nil]
+                ['o', 'x', 'o', 'x', 'o', 'x', 'o'],
+                ['x', 'o', 'x', 'o', 'x', 'o', 'x'],
+                ['o', 'x', 'o', 'x', 'o', 'x', 'o'],
+                ['x', 'o', 'x', 'o', 'x', 'o', 'x'],
+                ['o', 'x', 'o', 'x', 'o', 'x', 'o'],
+                ['x', 'o', 'x', 'o', 'x', 'o', nil]
             ]
-            expect(new_game.up_diagonal?('x')).to be(true)
+            expect(new_game.draw?).to be(false)
         end
     end
     
