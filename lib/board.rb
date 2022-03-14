@@ -1,5 +1,5 @@
 class Board
-    attr_reader :arr
+    attr_accessor :arr
     def initialize
         @arr = Array.new(6) { Array.new(7) }
     end

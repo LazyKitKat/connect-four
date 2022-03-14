@@ -2,7 +2,7 @@ require_relative 'player'
 require_relative 'board'
 
 class Game 
-    attr_accessor :current_player
+    attr_accessor :current_player, :board
     def initialize(name_one = "", name_two = "")
         welcome()
         puts "Player one name: "
@@ -14,7 +14,6 @@ class Game
         puts "Welcome #{@player_two.name}! Your symbol is #{@player_two.symbol}"
         @board = Board.new
         @current_player = @player_one
-        move()
     end
 
     def welcome
@@ -39,18 +38,30 @@ class Game
             end
             change_player() if !win?(@current_player.symbol)
         end
+        @board.print
         puts "Congratulations #{@current_player.name}! You won!"
     end
 
     def win?(symbol)
-        return true if check_row?(symbol) or check_column?(symbol) or check_diagonal?(symbol)
+        return true if check_row?(symbol) or check_column?(symbol) or up_diagonal?(symbol) or down_diagonal?(symbol)
         false
     end
 
-    def check_row?(symbol)
+    def up_diagonal?(symbol)
+        for i in 3..5
+            for j in 0..3
+                if @board.arr[i][j] == symbol and @board.arr[i - 1][j + 1] == symbol and @board.arr[i - 2][j + 2] == symbol and @board.arr[i - 3][j + 3] == symbol
+                    return true
+                end
+            end
+        end
+        false
+    end
+
+    def down_diagonal?(symbol)
         for i in 0..2
             for j in 0..3
-                if @board.arr[i][j] == symbol and @board.arr[i + 1][j] == symbol and @board.arr[i + 2][j] == symbol and @board.arr[i + 3][j] == symbol
+                if @board.arr[i][j] == symbol and @board.arr[i + 1][j + 1] == symbol and @board.arr[i + 2][j + 2] == symbol and @board.arr[i + 3][j + 3] == symbol
                     return true
                 end
             end
@@ -60,6 +71,17 @@ class Game
 
     def check_column?(symbol)
         for i in 0..2
+            for j in 0..6
+                if @board.arr[i][j] == symbol and @board.arr[i + 1][j] == symbol and @board.arr[i + 2][j] == symbol and @board.arr[i + 3][j] == symbol
+                    return true
+                end
+            end
+        end
+        false
+    end
+
+    def check_row?(symbol)
+        for i in 0..5
             for j in 0..3
                 if @board.arr[i][j] == symbol and @board.arr[i][j + 1] == symbol and @board.arr[i][j + 2] == symbol and @board.arr[i][j + 3] == symbol
                     return true
@@ -69,18 +91,7 @@ class Game
         false
     end
 
-    def check_diagonal?(symbol)
-        for i in 0..2
-            for j in 0..3
-                if @board.arr[i][j] == symbol and @board.arr[i + 1][j + 1] == symbol and @board.arr[i + 2][j + 2] == symbol and @board.arr[i + 2][j + 3] == symbol
-                    return true
-                elsif @board.arr[i][j] == symbol and @board.arr[i + 1][j - 1] == symbol and @board.arr[i + 2][j - 2] == symbol and @board.arr[i + 2][j - 3] == symbol
-                    return true
-                end 
-            end
-        end
-        false
-    end
+
 
     def change_player
         if @current_player == @player_one

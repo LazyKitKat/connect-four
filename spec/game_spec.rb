@@ -3,11 +3,21 @@ require './lib/game.rb'
 describe Game do
     let(:new_game) { Game.new('A', 'B')  }
     
-    context 'should return false when checked for a diagonal' do
-        it 'returns false when the board is first initialized' do
-            expect(new_game.check_diagonal?(new_game.current_player.symbol)).to be(false)
+
+    context 'when given a row' do
+        it 'should return true when 4 in a row' do
+            new_game.board.arr = [
+                [nil, nil, nil, nil, nil, nil, nil],
+                [nil, nil, nil, nil, nil, nil, nil],
+                [nil, nil, nil, 'x', nil, nil, nil],
+                [nil, nil, 'x', nil, nil, nil, nil],
+                [nil, 'x', nil, nil, nil, nil, nil],
+                ['x', nil, nil, nil, nil, nil, nil]
+            ]
+            expect(new_game.up_diagonal?('x')).to be(true)
         end
     end
+    
 
 end
 
